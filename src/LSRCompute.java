@@ -45,6 +45,10 @@ public class LSRCompute {
     private List<GraphData> dataList;
     private JGraphXAdapter graphXAdapter;
     private JPanel graphPanel;
+    private JPanel newNodePanel;
+    private JTextArea newNodeAddedTextArea;
+    private JLabel newNodeAddedLabel;
+    private JButton resetLoadingFileButton;
     private LSA lsa;
 
     private HashMap<String, List<GraphData>> nodesToEndNodes;
@@ -121,8 +125,7 @@ public class LSRCompute {
 
     public String getRemoveNodeComboBoxValue() {
         try {
-            String removeNode = this.removeNodeComboBox.getSelectedItem().toString();
-            return removeNode;
+            return String.valueOf(this.removeNodeComboBox.getSelectedItem());
         } catch (NullPointerException npe) {
             return "";
         }
@@ -141,7 +144,7 @@ public class LSRCompute {
                 path.append(">" + ((List<String>)singleTable.get("path")).get(i));
             }
         }
-        return "Found " + (String)singleTable.get("found") + " Path: " + path.toString() + " Cost: " + singleTable.get("cost") + "\n";
+        return "Found " + (String)singleTable.get("found") + " Path: " + path.toString() + " Cost: " + singleTable.get("cost");
     }
 
     public String getNewNodeTextFieldValue() {
@@ -158,13 +161,26 @@ public class LSRCompute {
     }
 
     public String getSourceNodeComboBoxValue() {
-        return this.selectSourceComboBox.getSelectedItem().toString();
+        return String.valueOf(this.selectSourceComboBox.getSelectedItem());
+    }
+
+    public JTextField getNewNodeTextField() {
+        return newNodeTextField;
     }
 
     public void updateLsaObject(String startNode, String removeNode) {
-        // TODO: update lsa object
-        if (removeNode != null && getNodesToEndNodes().containsKey(removeNode)) {
-            nodesToEndNodes.remove(removeNode);
+        if (getNodesToEndNodes().containsKey(removeNode)) {
+            this.nodesToEndNodes.remove(removeNode);
+        }
+        // TODO: delete the node, also need to delete the linkages
+        for (Map.Entry<String, List<GraphData>> entry : this.nodesToEndNodes.entrySet()) {
+//            List<GraphData> temp = entry.getValue();
+            for (GraphData gd : entry.getValue()) {
+                if (gd.getFrom().equals(removeNode) || gd.getTo().equals(removeNode)) {
+                    entry.getValue().remove(gd);
+                }
+            }
+//            this.nodesToEndNodes.put(entry.getKey(),temp);
         }
         setSelectSourceComboBox(getNodesToEndNodes());
         setRemoveNodeComboBox(getNodesToEndNodes());
@@ -177,38 +193,15 @@ public class LSRCompute {
         return this.statusOutputTextArea;
     }
 
-    public LSRCompute(String startNode, String fileName, String mode) {
-        singleStepButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (checkNewNodeTextField()) {
-                    // have string in newNodeTextField
-                    if (!checkDuplicateNodes(getNewNodeTextFieldValue())){
-                        String newNodeStr = getNewNodeTextFieldValue();
-                        String newNode = newNodeStr.substring(0, newNodeStr.indexOf(":"));
-                        String newNodeRoutesArr[] = newNodeStr.split(" ");
-                        List<GraphData> newNodeRoutes = new ArrayList<>();
-                        for (int i = 1; i < newNodeRoutesArr.length; i++) {
-                            String[] tempArr = newNodeRoutesArr[i].split(":");
-                            newNodeRoutes.add(new GraphData(newNode, tempArr[0], Integer.parseInt(tempArr[1])));
-                            newNodeRoutes.add(new GraphData(tempArr[0], newNode, Integer.parseInt(tempArr[1])));
-                        }
-                        nodesToEndNodes.put(newNode, newNodeRoutes);
-                        // TODO: update lsa object
-                        updateLsaObject(getSourceNodeComboBoxValue(), getRemoveNodeComboBoxValue());
-                        getLsa().computeNext();
-                        getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "There is duplicated node");
-                    }
-                } else {
-                    // no string in newNodeTextField
-                    getLsa().computeNext();
-                    getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()));
-                }
-            }
-        });
+    public JTextArea getNewNodeAddedTextArea() {
+        return newNodeAddedTextArea;
+    }
 
+    public JTextArea getLinkBrokenInfoTextArea() {
+        return linkBrokenInfoTextArea;
+    }
+
+    public void contentReset(String startNode, String fileName, String mode) {
         StringBuilder loadingFileInfo = new StringBuilder();
         List<String> linesInFile = new ArrayList<>();
 
@@ -248,6 +241,64 @@ public class LSRCompute {
             getLsa().computeNext();
             this.statusOutputTextArea.append(getSingleStatusOutput(getLsa().getTable()));
         }
+    }
+
+    public LSRCompute(String startNode, String fileName, String mode) {
+        singleStepButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkNewNodeTextField()) {
+                    // have string in newNodeTextField
+                    if (!checkDuplicateNodes(getNewNodeTextFieldValue())){
+                        String newNodeStr = getNewNodeTextFieldValue();
+                        String newNode = newNodeStr.substring(0, newNodeStr.indexOf(":"));
+                        String newNodeRoutesArr[] = newNodeStr.split(" ");
+                        List<GraphData> newNodeRoutes = new ArrayList<>();
+                        for (int i = 1; i < newNodeRoutesArr.length; i++) {
+                            String[] tempArr = newNodeRoutesArr[i].split(":");
+                            newNodeRoutes.add(new GraphData(newNode, tempArr[0], Integer.parseInt(tempArr[1])));
+                            newNodeRoutes.add(new GraphData(tempArr[0], newNode, Integer.parseInt(tempArr[1])));
+                        }
+                        nodesToEndNodes.put(newNode, newNodeRoutes);
+                        getNewNodeAddedTextArea().append(getNewNodeTextFieldValue() + "\n");
+                        // TODO: update lsa object
+                        updateLsaObject(getSourceNodeComboBoxValue(), getRemoveNodeComboBoxValue());
+                        getLsa().computeNext();
+                        getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()));
+                        getNewNodeTextField().setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "There is duplicated node");
+                    }
+                } else {
+                    // no string in newNodeTextField
+                    if (getRemoveNodeComboBoxValue() != null) {
+                        updateLsaObject(getSourceNodeComboBoxValue(), getRemoveNodeComboBoxValue());
+                    }
+                    getLsa().computeNext();
+                    getStatusOutputTextArea().append("\n"+getSingleStatusOutput(getLsa().getTable()));
+                }
+            }
+        });
+
+        resetLoadingFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getStatusOutputTextArea().setText("");
+                getNewNodeAddedTextArea().setText("");
+                getLinkBrokenInfoTextArea().setText("");
+                getNewNodeTextField().setText("");
+                contentReset(startNode, fileName, mode);
+            }
+        });
+
+        computeAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: compute all
+            }
+        });
+
+        contentReset(startNode, fileName, mode);
     }
 
 
