@@ -168,20 +168,24 @@ public class LSRCompute {
         return newNodeTextField;
     }
 
-    public void updateLsaObject(String startNode, String removeNode) {
-        if (getNodesToEndNodes().containsKey(removeNode)) {
-            this.nodesToEndNodes.remove(removeNode);
+    public void removeNode(String removeNodeKey) {
+        if (getNodesToEndNodes().containsKey(removeNodeKey)) {
+            this.nodesToEndNodes.remove(removeNodeKey);
         }
         // TODO: delete the node, also need to delete the linkages
         for (Map.Entry<String, List<GraphData>> entry : this.nodesToEndNodes.entrySet()) {
 //            List<GraphData> temp = entry.getValue();
             for (GraphData gd : entry.getValue()) {
-                if (gd.getFrom().equals(removeNode) || gd.getTo().equals(removeNode)) {
+                if (gd.getFrom().equals(removeNodeKey) || gd.getTo().equals(removeNodeKey)) {
                     entry.getValue().remove(gd);
                 }
             }
 //            this.nodesToEndNodes.put(entry.getKey(),temp);
         }
+    }
+
+    public void updateLsaObject(String startNode) {
+
         setSelectSourceComboBox(getNodesToEndNodes());
         setRemoveNodeComboBox(getNodesToEndNodes());
         selectSourceComboBox.setSelectedItem(startNode);
@@ -262,9 +266,9 @@ public class LSRCompute {
                         nodesToEndNodes.put(newNode, newNodeRoutes);
                         getNewNodeAddedTextArea().append(getNewNodeTextFieldValue() + "\n");
                         // TODO: update lsa object
-                        updateLsaObject(getSourceNodeComboBoxValue(), getRemoveNodeComboBoxValue());
+                        updateLsaObject(getSourceNodeComboBoxValue());
                         getLsa().computeNext();
-                        getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()));
+                        getStatusOutputTextArea().append("\n"+getSingleStatusOutput(getLsa().getTable()));
                         getNewNodeTextField().setText("");
                     } else {
                         JOptionPane.showMessageDialog(null, "There is duplicated node");
@@ -272,7 +276,7 @@ public class LSRCompute {
                 } else {
                     // no string in newNodeTextField
                     if (getRemoveNodeComboBoxValue() != null) {
-                        updateLsaObject(getSourceNodeComboBoxValue(), getRemoveNodeComboBoxValue());
+                        updateLsaObject(getSourceNodeComboBoxValue());
                     }
                     getLsa().computeNext();
                     getStatusOutputTextArea().append("\n"+getSingleStatusOutput(getLsa().getTable()));
