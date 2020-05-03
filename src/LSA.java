@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class LSA {
     private int[][] weights;
@@ -123,14 +120,36 @@ public class LSA {
         }
     }
 
+    public List<HashMap<String, Object>> getAllTables() {
+        List<HashMap<String, Object>> allTables = new ArrayList<>();
+        for (String node: nodes) {
+            if (node != start) {
+                allTables.add(getTable(node));
+            }
+        }
+        return allTables;
+    }
+
     public void printTable(){
         printTable(nearest);
+    }
+
+    public HashMap<String, Object> getTable() {
+        return getTable(nearest);
     }
 
     public void printTable(String target){
         System.out.print("Found " + target + " : ");
         System.out.print("Cost: " + distances[nodes.indexOf(target)]);
         System.out.println(" path: " + getPathTo(target));
+    }
+
+    public HashMap<String, Object> getTable(String target) {
+        HashMap<String, Object> singleStepInfo = new HashMap<>();
+        singleStepInfo.put("found", target);
+        singleStepInfo.put("cost", distances[nodes.indexOf(target)]);
+        singleStepInfo.put("path", getPathTo(target));
+        return singleStepInfo;
     }
 
     public LSA(List<GraphData> dataList, String start){
