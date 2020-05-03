@@ -5,10 +5,15 @@ import org.jgrapht.ext.JGraphXAdapter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 import java.util.List;
 //import java.awt.event.ActionEvent;
 //import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
 
 public class LSRCompute {
     private JPanel infoPanel;
@@ -52,48 +57,50 @@ public class LSRCompute {
         graphPanel.add(new mxGraphComponent(this.graphXAdapter));
     }
 
+//    public LSRCompute(List<GraphData> graphDataList, String node, String loadingFileInfoText) {
     public LSRCompute(String args[]) {
+        StringBuilder loadingFileInfo = new StringBuilder();
+        List<String> linesInFile = new ArrayList<>();
+
         try {
-            this.loadingFileInfoTextArea.setText(args[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-
+            File fileInput = new File("src/"+args[0]);
+            Scanner fileReader = new Scanner(fileInput);
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                loadingFileInfo.append(line+"\n");
+                linesInFile.add(line);
+            }
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
         }
-        String a = "A1";
-        String b = "B2";
-        String c = "C3";
-        String d = "D4";
-        String e = "E5";
-        String f = "F6";
 
+        try {
+            this.loadingFileInfoTextArea.setText(loadingFileInfo.toString());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("No input parameter detected!");
+        }
+
+        HashMap<String, List<GraphData>> nodesToEndNodes = new HashMap<>();
+        for (String line : linesInFile) {
+            String nodesKey = line.substring(0,1);
+            String tempToEndNodes[] = line.split(" ");
+            List<GraphData> nodeToAllEndNodes = new ArrayList<>();
+            for (int i = 1; i < tempToEndNodes.length; i++) {
+                String endNodeAndWeight[] = tempToEndNodes[i].split(":");
+                nodeToAllEndNodes.add(new GraphData(nodesKey, endNodeAndWeight[0], Integer.parseInt(endNodeAndWeight[1])));
+                nodeToAllEndNodes.add(new GraphData(endNodeAndWeight[0], nodesKey, Integer.parseInt(endNodeAndWeight[1])));
+            }
+            nodesToEndNodes.put(nodesKey, nodeToAllEndNodes);
+        }
 
         List<GraphData> graphDataList = new ArrayList<>();
-        graphDataList.add(new GraphData(a, b, 5));
-        graphDataList.add(new GraphData(b, a, 5));
 
-        graphDataList.add(new GraphData(a, c, 3));
-        graphDataList.add(new GraphData(c, a, 3));
+        for (Map.Entry<String, List<GraphData>> node : nodesToEndNodes.entrySet()) {
+            graphDataList.addAll(node.getValue());
+        }
 
-        graphDataList.add(new GraphData(a, d, 5));
-        graphDataList.add(new GraphData(d, a, 5));
-
-        graphDataList.add(new GraphData(c, b, 4));
-        graphDataList.add(new GraphData(b, c, 4));
-
-        graphDataList.add(new GraphData(c, d, 1));
-        graphDataList.add(new GraphData(d, c, 1));
-
-        graphDataList.add(new GraphData(b, f, 2));
-        graphDataList.add(new GraphData(f, b, 2));
-
-        graphDataList.add(new GraphData(b, e, 3));
-        graphDataList.add(new GraphData(e, b, 3));
-
-        graphDataList.add(new GraphData(d, e, 3));
-        graphDataList.add(new GraphData(e, d, 3));
-
-//        JFrame frame = new JFrame("App");
-//        Main main = new Main();
-        this.lsa = new LSA(graphDataList, a);
+        this.lsa = new LSA(graphDataList, "A");
         this.drawGraph(graphDataList);
         this.dataList = graphDataList;
     }
@@ -105,6 +112,7 @@ public class LSRCompute {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
     }
 
 }
