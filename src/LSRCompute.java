@@ -49,6 +49,10 @@ public class LSRCompute {
     private JTextArea newNodeAddedTextArea;
     private JLabel newNodeAddedLabel;
     private JButton resetLoadingFileButton;
+    private JButton removeNodeButton;
+    private JTextField linkBrokenTextField;
+    private JButton linkBrokenSubmitButton;
+    private JButton newNodeButton;
     private LSA lsa;
 
     private HashMap<String, List<GraphData>> nodesToEndNodes;
@@ -168,20 +172,55 @@ public class LSRCompute {
         return newNodeTextField;
     }
 
-    public void removeNode(String removeNodeKey) {
+    public void removeNode(String removeNodeKey, String startNode) {
         if (getNodesToEndNodes().containsKey(removeNodeKey)) {
             this.nodesToEndNodes.remove(removeNodeKey);
         }
         // TODO: delete the node, also need to delete the linkages
-        for (Map.Entry<String, List<GraphData>> entry : this.nodesToEndNodes.entrySet()) {
-//            List<GraphData> temp = entry.getValue();
+        HashMap<String, List<GraphData>> tempAllNodes = new HashMap<>();
+        for (Map.Entry<String, List<GraphData>> entry : getNodesToEndNodes().entrySet()) {
+            List<GraphData> temp = new ArrayList<>();
             for (GraphData gd : entry.getValue()) {
-                if (gd.getFrom().equals(removeNodeKey) || gd.getTo().equals(removeNodeKey)) {
-                    entry.getValue().remove(gd);
+                if (!(gd.getFrom().equals(removeNodeKey) || gd.getTo().equals(removeNodeKey))) {
+                    temp.add(gd);
                 }
             }
-//            this.nodesToEndNodes.put(entry.getKey(),temp);
+            tempAllNodes.put(entry.getKey(),temp);
         }
+        this.nodesToEndNodes = tempAllNodes;
+        for (Map.Entry<String, List<GraphData>> entry : getNodesToEndNodes().entrySet()){
+            System.out.printf("%s " + entry.getValue() + "\n", entry.getKey());
+        }
+
+        setSelectSourceComboBox(getNodesToEndNodes());
+        setRemoveNodeComboBox(getNodesToEndNodes());
+        selectSourceComboBox.setSelectedItem(startNode);
+
+        setDrawGraph(getNodesToEndNodes(), startNode);
+    }
+
+    public void breakLink(String from, String to, String startNode) {
+        HashMap<String, List<GraphData>> tempAllNodes = new HashMap<>();
+        for (Map.Entry<String, List<GraphData>> entry : getNodesToEndNodes().entrySet()) {
+            List<GraphData> temp = new ArrayList<>();
+            for (GraphData gd : entry.getValue()) {
+                if (gd.getFrom().equals(from) && gd.getTo().equals(to)) {
+                    continue;
+                }
+                if (gd.getFrom().equals(to) && gd.getTo().equals(from)) {
+                    continue;
+                }
+                temp.add(gd);
+            }
+            tempAllNodes.put(entry.getKey(), temp);
+        }
+        this.nodesToEndNodes = tempAllNodes;
+
+        setSelectSourceComboBox(getNodesToEndNodes());
+        setRemoveNodeComboBox(getNodesToEndNodes());
+        selectSourceComboBox.setSelectedItem(startNode);
+
+        setDrawGraph(getNodesToEndNodes(), startNode);
     }
 
     public void updateLsaObject(String startNode) {
@@ -201,8 +240,8 @@ public class LSRCompute {
         return newNodeAddedTextArea;
     }
 
-    public JTextArea getLinkBrokenInfoTextArea() {
-        return linkBrokenInfoTextArea;
+    public JTextField getLinkBrokenTextField() {
+        return linkBrokenTextField;
     }
 
     public void contentReset(String startNode, String fileName, String mode) {
@@ -243,7 +282,7 @@ public class LSRCompute {
         } else if (!mode.isEmpty() && mode.toUpperCase().equals(SS_MODE)) {
             // SS mode here
             getLsa().computeNext();
-            this.statusOutputTextArea.append(getSingleStatusOutput(getLsa().getTable()));
+            this.statusOutputTextArea.append(getSingleStatusOutput(getLsa().getTable()) + "\n");
         }
     }
 
@@ -251,9 +290,54 @@ public class LSRCompute {
         singleStepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+//                updateLsaObject(getSourceNodeComboBoxValue());
+                getLsa().computeNext();
+                getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()) + "\n");
+            }
+        });
+
+        resetLoadingFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getStatusOutputTextArea().setText("");
+                getNewNodeAddedTextArea().setText("");
+                getLinkBrokenTextField().setText("");
+                getNewNodeTextField().setText("");
+                contentReset(startNode, fileName, mode);
+            }
+        });
+
+        computeAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: compute all
+            }
+        });
+
+        removeNodeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeNode(getRemoveNodeComboBoxValue(), getSourceNodeComboBoxValue());
+            }
+        });
+
+        linkBrokenSubmitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if ( !(linkBrokenTextField.getText().equals("")) ) {
+                    String[] linkBroken = linkBrokenTextField.getText().split(">");
+                    breakLink(linkBroken[0], linkBroken[1], getSourceNodeComboBoxValue());
+                }
+            }
+        });
+
+        newNodeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if (checkNewNodeTextField()) {
                     // have string in newNodeTextField
-                    if (!checkDuplicateNodes(getNewNodeTextFieldValue())){
+                    if (!checkDuplicateNodes(getNewNodeTextFieldValue())) {
+
                         getStatusOutputTextArea().setText("");
                         String newNodeStr = getNewNodeTextFieldValue();
                         String newNode = newNodeStr.substring(0, newNodeStr.indexOf(":"));
@@ -265,38 +349,16 @@ public class LSRCompute {
                             newNodeRoutes.add(new GraphData(tempArr[0], newNode, Integer.parseInt(tempArr[1])));
                         }
                         nodesToEndNodes.put(newNode, newNodeRoutes);
+
                         getNewNodeAddedTextArea().append(getNewNodeTextFieldValue() + "\n");
-                        // TODO: update lsa object
                         updateLsaObject(getSourceNodeComboBoxValue());
-                        getLsa().computeNext();
-                        getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()));
                         getNewNodeTextField().setText("");
                     } else {
                         JOptionPane.showMessageDialog(null, "There is duplicated node");
                     }
                 } else {
-                    // no string in newNodeTextField
-                    getLsa().computeNext();
-                    getStatusOutputTextArea().append("\n"+getSingleStatusOutput(getLsa().getTable()));
+
                 }
-            }
-        });
-
-        resetLoadingFileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getStatusOutputTextArea().setText("");
-                getNewNodeAddedTextArea().setText("");
-                getLinkBrokenInfoTextArea().setText("");
-                getNewNodeTextField().setText("");
-                contentReset(startNode, fileName, mode);
-            }
-        });
-
-        computeAllButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: compute all
             }
         });
 
