@@ -254,6 +254,7 @@ public class LSRCompute {
                 if (checkNewNodeTextField()) {
                     // have string in newNodeTextField
                     if (!checkDuplicateNodes(getNewNodeTextFieldValue())){
+                        getStatusOutputTextArea().setText("");
                         String newNodeStr = getNewNodeTextFieldValue();
                         String newNode = newNodeStr.substring(0, newNodeStr.indexOf(":"));
                         String newNodeRoutesArr[] = newNodeStr.split(" ");
@@ -268,7 +269,7 @@ public class LSRCompute {
                         // TODO: update lsa object
                         updateLsaObject(getSourceNodeComboBoxValue());
                         getLsa().computeNext();
-                        getStatusOutputTextArea().append("\n"+getSingleStatusOutput(getLsa().getTable()));
+                        getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()));
                         getNewNodeTextField().setText("");
                     } else {
                         JOptionPane.showMessageDialog(null, "There is duplicated node");
