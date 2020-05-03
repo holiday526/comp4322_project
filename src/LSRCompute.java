@@ -16,6 +16,9 @@ import java.util.List;
 
 
 public class LSRCompute {
+    public final String CA_MODE = "CA";
+    public final String SS_MODE = "SS";
+
     private JPanel infoPanel;
     private JPanel inputDataPanel;
     private JPanel diagramPanel;
@@ -47,6 +50,8 @@ public class LSRCompute {
     private JPanel graphPanel;
     private LSA lsa;
 
+    private HashMap<String, List<GraphData>> nodesToEndNodes;
+
     public void drawPath(java.util.List<GraphData> graphDataList, java.util.List<String> path){
         this.graphXAdapter = new GraphVisualization().getShortestPathGraphByPath(graphDataList, path);
         graphPanel.add(new mxGraphComponent(this.graphXAdapter));
@@ -57,31 +62,8 @@ public class LSRCompute {
         graphPanel.add(new mxGraphComponent(this.graphXAdapter));
     }
 
-//    public LSRCompute(List<GraphData> graphDataList, String node, String loadingFileInfoText) {
-    public LSRCompute(String args[]) {
-        StringBuilder loadingFileInfo = new StringBuilder();
-        List<String> linesInFile = new ArrayList<>();
-
-        try {
-            File fileInput = new File("src/"+args[0]);
-            Scanner fileReader = new Scanner(fileInput);
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                loadingFileInfo.append(line+"\n");
-                linesInFile.add(line);
-            }
-            fileReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
-
-        try {
-            this.loadingFileInfoTextArea.setText(loadingFileInfo.toString());
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("No input parameter detected!");
-        }
-
-        HashMap<String, List<GraphData>> nodesToEndNodes = new HashMap<>();
+    public void setNodesToEndNodes(List<String> linesInFile) {
+        this.nodesToEndNodes = new HashMap<>();
         for (String line : linesInFile) {
             String nodesKey = line.substring(0,1);
             String tempToEndNodes[] = line.split(" ");
@@ -93,26 +75,107 @@ public class LSRCompute {
             }
             nodesToEndNodes.put(nodesKey, nodeToAllEndNodes);
         }
+    }
 
+    public void setDrawGraph(HashMap<String, List<GraphData>> allNodesToEndNodes, String startNode) {
         List<GraphData> graphDataList = new ArrayList<>();
-
-        for (Map.Entry<String, List<GraphData>> node : nodesToEndNodes.entrySet()) {
+        for (Map.Entry<String, List<GraphData>> node : allNodesToEndNodes.entrySet()) {
             graphDataList.addAll(node.getValue());
         }
 
-        this.lsa = new LSA(graphDataList, "A");
+        this.lsa = new LSA(graphDataList, startNode);
         this.drawGraph(graphDataList);
         this.dataList = graphDataList;
     }
 
+    public HashMap<String, List<GraphData>> getNodesToEndNodes() {
+        return this.nodesToEndNodes;
+    }
+
+    public void setSelectSourceComboBox(HashMap<String, List<GraphData>> allNodesToEndNodes) {
+        selectSourceComboBox.removeAllItems();
+        for (String nodeKey : allNodesToEndNodes.keySet()) {
+            selectSourceComboBox.addItem(nodeKey);
+        }
+    }
+
+    public LSA getLsa() {
+        return this.lsa;
+    }
+
+//    public LSRCompute(List<GraphData> graphDataList, String node, String loadingFileInfoText) {
+    public LSRCompute(String startNode, String fileName, String mode) {
+        StringBuilder loadingFileInfo = new StringBuilder();
+        List<String> linesInFile = new ArrayList<>();
+
+        try {
+            File fileInput = new File("src/"+fileName);
+            Scanner fileReader = new Scanner(fileInput);
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                loadingFileInfo.append(line+"\n");
+                linesInFile.add(line);
+            }
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+
+        this.loadingFileInfoTextArea.setText(loadingFileInfo.toString());
+
+        setNodesToEndNodes(linesInFile);
+
+        setDrawGraph(getNodesToEndNodes(), startNode);
+
+        setSelectSourceComboBox(getNodesToEndNodes());
+
+        selectSourceComboBox.setSelectedItem(startNode);
+
+        if (!mode.isEmpty() && mode.toUpperCase().equals(CA_MODE)) {
+            // CA mode here
+            getLsa().computeAll();
+            getLsa().printAllTable();
+        } else if (!mode.isEmpty() && mode.toUpperCase().equals(SS_MODE)) {
+            // SS mode here
+            getLsa().computeNext();
+            getLsa().printTable();
+            Scanner input = new Scanner(System.in);
+            while (true) {
+                if (input.nextLine().equals("E")) {
+                    break;
+                } else {
+                    getLsa().computeNext();
+                    getLsa().printTable();
+                }
+            }
+        }
+    }
+
     public static void main(String args[]) {
+        String readFileName;
+        String startNode;
+        String computeMode;
+        try {
+            readFileName = args[0];
+            startNode = args[1];
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Invalid parameter input");
+            System.out.println("No filename or start node");
+            return;
+        }
+
+        try {
+            computeMode = args[2];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            computeMode = "";
+        }
+
         JFrame frame = new JFrame("LSRCompute");
         frame.setSize(900, 900);
-        frame.setContentPane(new LSRCompute(args).mainPanel);
+        frame.setContentPane(new LSRCompute(startNode, readFileName, computeMode).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
     }
 
 }
