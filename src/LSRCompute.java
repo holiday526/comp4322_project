@@ -275,9 +275,6 @@ public class LSRCompute {
                     }
                 } else {
                     // no string in newNodeTextField
-                    if (getRemoveNodeComboBoxValue() != null) {
-                        updateLsaObject(getSourceNodeComboBoxValue());
-                    }
                     getLsa().computeNext();
                     getStatusOutputTextArea().append("\n"+getSingleStatusOutput(getLsa().getTable()));
                 }
