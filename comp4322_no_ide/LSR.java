@@ -104,6 +104,10 @@ public class LSR {
         return nearest;
     }
 
+    public String getStart(){
+        return this.start;
+    }
+
     public List<String> getPathTo(String target){
         List<String> result = findPath(target, new ArrayList<>());
         if(target != start){

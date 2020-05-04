@@ -313,6 +313,11 @@ public class LSRCompute {
         singleStepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	//refresh if source changed
+            	if(getSourceNodeComboBoxValue() != getLsr().getStart()){
+	            	updateLsaObject(getSourceNodeComboBoxValue());
+	            	getStatusOutputTextArea().setText("");
+	            }
                 if(!getLsr().computeNext()) return;
                 setDrawPath(getNodesToEndNodes());
                 getStatusOutputTextArea().append(getSingleStatusOutput(getLsr().getTable()) + "\n");
@@ -346,6 +351,7 @@ public class LSRCompute {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removeNode(getRemoveNodeComboBoxValue(), getSourceNodeComboBoxValue());
+                getStatusOutputTextArea().setText("");
             }
         });
 
@@ -353,8 +359,13 @@ public class LSRCompute {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(linkBrokenTextField.getText().equals(""))) {
+                	try{
                     String[] linkBroken = linkBrokenTextField.getText().split(">");
                     breakLink(linkBroken[0], linkBroken[1], getSourceNodeComboBoxValue());
+                    getStatusOutputTextArea().setText("");
+                	}catch(Exception ex){
+                		JOptionPane.showMessageDialog(null, "Invalid input.");
+                	}
                 }
             }
         });
@@ -380,6 +391,7 @@ public class LSRCompute {
 
                         getNewNodeAddedTextArea().append(getNewNodeTextFieldValue() + "\n");
                         updateLsaObject(getSourceNodeComboBoxValue());
+                        setRemoveNodeComboBox(getNodesToEndNodes());
                         getNewNodeTextField().setText("");
                     } else {
                         JOptionPane.showMessageDialog(null, "There is duplicated node");
