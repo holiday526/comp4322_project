@@ -29,7 +29,10 @@ java LSRCompute <route filename> <start node> <SS|CA>
 ------
   
 NEW added <b>comp4322_project_no_ide</b>\
+Compile:\
 javac LSRCompute.java\
-java LSRCompute <route filename>\
+\
+Execute:\
+java LSRCompute <route filename> \
 \
 route file now should be located at same directory with execute file (.class)
