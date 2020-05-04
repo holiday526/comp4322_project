@@ -25,3 +25,15 @@ before run the LSRCompute command > locate the routes.lsa file
 
 run LSRCompute using command:
 java LSRCompute <route filename> <start node> <SS|CA>
+  
+------
+  
+NEW added <b>comp4322_project_no_ide</b>\
+Compile:\
+javac LSRCompute.java\
+\
+Execute:\
+java LSRCompute [route filename] \
+e.g. java LSRCompute routes.lsa\
+\
+#note: route file now should be located at same directory with execution file (.class)
