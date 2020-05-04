@@ -226,7 +226,7 @@ public class LSRCompute {
     public void updateLsaObject(String startNode) {
 
         setSelectSourceComboBox(getNodesToEndNodes());
-        setRemoveNodeComboBox(getNodesToEndNodes());
+//        setRemoveNodeComboBox(getNodesToEndNodes());
         selectSourceComboBox.setSelectedItem(startNode);
 
         setDrawGraph(getNodesToEndNodes(), startNode);
@@ -290,7 +290,7 @@ public class LSRCompute {
         singleStepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                updateLsaObject(getSourceNodeComboBoxValue());
+                updateLsaObject(getSourceNodeComboBoxValue());
                 getLsa().computeNext();
                 getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()) + "\n");
             }
@@ -311,6 +311,12 @@ public class LSRCompute {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: compute all
+                getStatusOutputTextArea().setText("");
+                updateLsaObject(getSourceNodeComboBoxValue());
+                getLsa().computeAll();
+                for (HashMap<String, Object> table : getLsa().getAllTables()) {
+                    getStatusOutputTextArea().append(getSingleStatusOutput(table) + "\n");
+                }
             }
         });
 
