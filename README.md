@@ -34,5 +34,6 @@ javac LSRCompute.java\
 \
 Execute:\
 java LSRCompute [route filename] \
+e.g. java LSRCompute routes.lsa
 \
 route file now should be located at same directory with execute file (.class)
