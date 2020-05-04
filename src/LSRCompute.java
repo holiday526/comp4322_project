@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
 
 
 public class LSRCompute {
@@ -188,9 +186,6 @@ public class LSRCompute {
             tempAllNodes.put(entry.getKey(),temp);
         }
         this.nodesToEndNodes = tempAllNodes;
-        for (Map.Entry<String, List<GraphData>> entry : getNodesToEndNodes().entrySet()){
-            System.out.printf("%s " + entry.getValue() + "\n", entry.getKey());
-        }
 
         setSelectSourceComboBox(getNodesToEndNodes());
         setRemoveNodeComboBox(getNodesToEndNodes());
@@ -249,7 +244,8 @@ public class LSRCompute {
         List<String> linesInFile = new ArrayList<>();
 
         try {
-            File fileInput = new File("src/"+fileName);
+//            File fileInput = new File("src/"+fileName);
+            File fileInput = new File("../../../src/"+fileName);
             Scanner fileReader = new Scanner(fileInput);
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
@@ -290,7 +286,7 @@ public class LSRCompute {
         singleStepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateLsaObject(getSourceNodeComboBoxValue());
+//                updateLsaObject(getSourceNodeComboBoxValue());
                 getLsa().computeNext();
                 getStatusOutputTextArea().append(getSingleStatusOutput(getLsa().getTable()) + "\n");
             }
@@ -370,8 +366,6 @@ public class LSRCompute {
 
         contentReset(startNode, fileName, mode);
     }
-
-
 
     public static void main(String args[]) {
         String readFileName;

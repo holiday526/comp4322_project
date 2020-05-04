@@ -7,7 +7,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c666fa1-4b10-4ffc-b2f6-574fee8a28e0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/GraphData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/GraphData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/LSA.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/LSA.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/LSRCompute.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/LSRCompute.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/comp4322_project.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/comp4322_project.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/comp4322_project_jar/routes.lsa" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comp4322_project/LSRCompute.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comp4322_project/test.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LSRCompute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LSRCompute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes.lsa" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,26 +42,28 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="MF" value="1" />
           <entry key="form" value="8" />
-          <entry key="java" value="16" />
+          <entry key="java" value="17" />
           <entry key="lsa" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="GUI_DESIGNER_FORM" value="8" />
-          <entry key="JAVA" value="16" />
+          <entry key="JAVA" value="17" />
+          <entry key="Manifest" value="1" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="10958" />
+          <entry key="java" value="10987" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="10958" />
+          <entry key="JAVA" value="10987" />
         </counts>
       </usages-collector>
     </session>
@@ -56,8 +73,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/LSRCompute.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="293" column="39" lean-forward="true" selection-start-line="293" selection-start-column="39" selection-end-line="293" selection-end-column="39" />
+            <state relative-caret-position="595">
+              <caret line="289" column="39" lean-forward="true" selection-start-line="289" selection-start-column="39" selection-end-line="289" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3653#3654#0" expanded="true" />
@@ -99,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LSA.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2806">
-              <caret line="122" column="53" selection-start-line="122" selection-start-column="53" selection-end-line="122" selection-end-column="53" />
+            <state relative-caret-position="-2479">
+              <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
               <folding>
                 <element signature="e#2321#2322#0" expanded="true" />
                 <element signature="e#2357#2358#0" expanded="true" />
@@ -131,7 +148,14 @@
       <find>check</find>
       <find>setText</find>
       <find>System.out.println(</find>
+      <find>system.out.println</find>
+      <find>system.out.println(</find>
+      <find>system.out.print</find>
+      <find>filename</find>
     </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/out/artifacts/comp4322_project_jar</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -177,7 +201,31 @@
             <path>
               <item name="comp4322_project" type="b2602c69:ProjectViewProjectNode" />
               <item name="comp4322_project" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="comp4322_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="comp4322_project" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="comp4322_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="comp4322_project" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="comp4322_project_jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="comp4322_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="comp4322_project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="comp4322_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="comp4322_project" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="comp4322_project" type="b2602c69:ProjectViewProjectNode" />
@@ -224,6 +272,7 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/out/artifacts/comp4322_project_jar" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -285,12 +334,12 @@
       <option name="presentableId" value="Default" />
       <updated>1588232807149</updated>
       <workItem from="1588232808584" duration="144000" />
-      <workItem from="1588350495069" duration="48543000" />
+      <workItem from="1588350495069" duration="50461000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48687000" />
+    <option name="totallyTimeSpent" value="50605000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -305,7 +354,7 @@
     <frame x="0" y="0" width="2048" height="1152" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49886364" visible="true" weight="0.14307079" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49886364" visible="true" weight="0.16999003" />
       <window_info id="Structure" order="1" sideWeight="0.50113636" side_tool="true" weight="0.14307079" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -364,7 +413,7 @@
     <entry file="file://$PROJECT_DIR$/out/production/comp4322_project/routes.lsa">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/out/artifacts/comp4322_project_jar/routes.lsa">
+    <entry file="file://$PROJECT_DIR$/src/routes.lsa">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/out/production/comp4322/routes.lsa">
@@ -374,16 +423,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
           <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -415,19 +454,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LSA.java">
+    <entry file="file://$PROJECT_DIR$/src/LSRCompute.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2806">
-          <caret line="122" column="53" selection-start-line="122" selection-start-column="53" selection-end-line="122" selection-end-column="53" />
+        <state relative-caret-position="391">
+          <caret line="17" column="9" lean-forward="true" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
           <folding>
-            <element signature="e#2321#2322#0" expanded="true" />
-            <element signature="e#2357#2358#0" expanded="true" />
-            <element signature="e#3343#3344#0" expanded="true" />
-            <element signature="e#3373#3374#0" expanded="true" />
-            <element signature="e#3785#3786#0" expanded="true" />
-            <element signature="e#3820#3821#0" expanded="true" />
-            <element signature="e#3776#3777#0" expanded="true" />
-            <element signature="e#3801#3802#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -445,13 +480,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LSRCompute.form">
-      <provider selected="true" editor-type-id="ui-designer" />
+    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LSA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2479">
+          <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding>
+            <element signature="e#2321#2322#0" expanded="true" />
+            <element signature="e#2357#2358#0" expanded="true" />
+            <element signature="e#3343#3344#0" expanded="true" />
+            <element signature="e#3373#3374#0" expanded="true" />
+            <element signature="e#3785#3786#0" expanded="true" />
+            <element signature="e#3820#3821#0" expanded="true" />
+            <element signature="e#3776#3777#0" expanded="true" />
+            <element signature="e#3801#3802#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LSRCompute.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="293" column="39" lean-forward="true" selection-start-line="293" selection-start-column="39" selection-end-line="293" selection-end-column="39" />
+        <state relative-caret-position="595">
+          <caret line="289" column="39" lean-forward="true" selection-start-line="289" selection-start-column="39" selection-end-line="289" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3653#3654#0" expanded="true" />
