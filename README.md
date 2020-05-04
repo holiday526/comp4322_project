@@ -33,6 +33,6 @@ Compile:\
 javac LSRCompute.java\
 \
 Execute:\
-java LSRCompute <route filename> \
+java LSRCompute [route filename] \
 \
 route file now should be located at same directory with execute file (.class)
