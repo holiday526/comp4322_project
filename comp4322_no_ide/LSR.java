@@ -110,7 +110,7 @@ public class LSR {
 
     public List<String> getPathTo(String target){
         List<String> result = findPath(target, new ArrayList<>());
-        if(target != start){
+        if(target.compareTo(start) != 0){
             result.add(target);
         }
         return result;
@@ -118,7 +118,7 @@ public class LSR {
 
     public void printAllTable(){
         for (String node: nodes){
-            if(node != start){
+            if(node.compareTo(start) != 0){
                 printTable(node);
             }
         }
@@ -127,7 +127,7 @@ public class LSR {
     public List<HashMap<String, Object>> getAllTables() {
         List<HashMap<String, Object>> allTables = new ArrayList<>();
         for (String node: nodes) {
-            if (node != start) {
+            if (node.compareTo(start) != 0) {
                 allTables.add(getTable(node));
             }
         }
