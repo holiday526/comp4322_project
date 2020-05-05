@@ -360,9 +360,9 @@ public class LSRCompute {
             public void actionPerformed(ActionEvent e) {
                 if (!(linkBrokenTextField.getText().equals(""))) {
                 	try{
-                    String[] linkBroken = linkBrokenTextField.getText().split(">");
-                    breakLink(linkBroken[0], linkBroken[1], getSourceNodeComboBoxValue());
-                    getStatusOutputTextArea().setText("");
+	                    String[] linkBroken = linkBrokenTextField.getText().split(">");
+	                    breakLink(linkBroken[0], linkBroken[1], getSourceNodeComboBoxValue());
+	                    getStatusOutputTextArea().setText("");
                 	}catch(Exception ex){
                 		JOptionPane.showMessageDialog(null, "Invalid input.");
                 	}
