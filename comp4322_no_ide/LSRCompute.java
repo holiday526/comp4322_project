@@ -209,6 +209,12 @@ public class LSRCompute {
         }
         this.nodesToEndNodes = tempAllNodes;
 
+        //if source node is remove node
+        if(removeNodeKey.compareTo(startNode) == 0){
+            Map.Entry<String, List<GraphData>> entry = getNodesToEndNodes().entrySet().iterator().next();
+            startNode = entry.getKey();
+        }
+
         setSelectSourceComboBox(getNodesToEndNodes());
         setRemoveNodeComboBox(getNodesToEndNodes());
         selectSourceComboBox.setSelectedItem(startNode);
@@ -340,9 +346,15 @@ public class LSRCompute {
             public void actionPerformed(ActionEvent e) {
                 getStatusOutputTextArea().setText("");
                 updateLsaObject(getSourceNodeComboBoxValue());
-                getLsr().computeAll();
-                for (HashMap<String, Object> table : getLsr().getAllTables()) {
-                    getStatusOutputTextArea().append(getSingleStatusOutput(table) + "\n");
+                // Display by the order of the insertion of nodes
+                // getLsr().computeAll();
+                // for (HashMap<String, Object> table : getLsr().getAllTables()) {
+                //     getStatusOutputTextArea().append(getSingleStatusOutput(table) + "\n");
+                // }
+
+                // Display by the order of steps
+                while(getLsr().computeNext()){
+                    getStatusOutputTextArea().append(getSingleStatusOutput(getLsr().getTable()) + "\n");
                 }
             }
         });
