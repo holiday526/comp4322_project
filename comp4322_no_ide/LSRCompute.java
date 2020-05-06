@@ -315,7 +315,7 @@ public class LSRCompute {
         }
     }
 
-    public LSRCompute(String fileName, String mode) {
+    public LSRCompute(String fileName, String startNode, String mode) {
         singleStepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -414,7 +414,7 @@ public class LSRCompute {
             }
         });
 
-        contentReset("", fileName, mode);
+        contentReset(startNode, fileName, mode);
     }
 
     public static void main(String args[]) {
@@ -430,14 +430,20 @@ public class LSRCompute {
         }
 
         try {
-            computeMode = args[1];
+            startNode = args[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            startNode = "";
+        }
+
+        try {
+            computeMode = args[2];
         } catch (ArrayIndexOutOfBoundsException e) {
             computeMode = "";
         }
 
         JFrame frame = new JFrame("LSRCompute");
         frame.setSize(900, 900);
-        frame.setContentPane(new LSRCompute(readFileName, computeMode).mainPanel);
+        frame.setContentPane(new LSRCompute(readFileName, startNode, computeMode).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
